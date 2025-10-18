@@ -92,7 +92,7 @@ def generate_header_from_survey(survey_file='survey-JP.xlsx', output_file='heade
     default_daily_budget = 12
     default_group_bid = 0.6
     
-    # 改进的关键词类别提取逻辑
+   # 改进的关键词类别提取逻辑
     def extract_keyword_categories(df_survey):
         categories = set()
         
@@ -473,20 +473,21 @@ def generate_header_from_survey(survey_file='survey-JP.xlsx', output_file='heade
 def main():
     st.title("广告活动表头生成工具 (JP)")
     
-    # 文件上传
-    uploaded_file = st.file_uploader("上传调查 Excel 文件 (survey-JP.xlsx)", type=['xlsx'])
+    # 文件上传（不指定文件名）
+    uploaded_file = st.file_uploader("上传调查 Excel 文件", type=['xlsx'])
     
     if uploaded_file is not None:
-        # 保存上传的文件
-        with open('survey-JP.xlsx', 'wb') as f:
+        # 保存上传的文件，使用原始文件名
+        saved_file_name = uploaded_file.name
+        with open(saved_file_name, 'wb') as f:
             f.write(uploaded_file.getbuffer())
-        st.success("文件上传成功！")
+        st.success(f"文件上传成功！已保存为：{saved_file_name}")
         
         # 生成表头
         if st.button("生成表头"):
-            generate_header_from_survey(survey_file='survey-JP.xlsx', output_file='header-JP.xlsx')
+            generate_header_from_survey(survey_file=saved_file_name, output_file='header-JP.xlsx')
     else:
-        st.info("请上传 survey-JP.xlsx 文件以开始生成。")
+        st.info("请上传 .xlsx 文件以开始生成。")
 
 if __name__ == "__main__":
     main()
