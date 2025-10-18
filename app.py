@@ -457,6 +457,16 @@ def generate_header_from_survey(survey_file='survey-JP.xlsx', output_file='heade
     
     st.write("生成的表格预览：")
     st.dataframe(df_header.head(20))  # 显示前20行作为预览
+    
+    # 添加下载按钮
+    with open(output_file, 'rb') as f:
+        st.download_button(
+            label='下载生成的表头文件 (header-JP.xlsx)',
+            data=f.read(),
+            file_name='header-JP.xlsx',
+            mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        )
+    
     return df_header
 
 # Streamlit 主界面
