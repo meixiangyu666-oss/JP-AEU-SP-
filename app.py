@@ -461,9 +461,9 @@ def generate_header_from_survey(survey_file='survey-JP.xlsx', output_file='heade
     # 添加下载按钮
     with open(output_file, 'rb') as f:
         st.download_button(
-            label='下载生成的表头文件 (header-JP.xlsx)',
+            label=f'下载生成的表头文件 ({output_file})',
             data=f.read(),
-            file_name='header-JP.xlsx',
+            file_name=output_file,
             mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
         )
     
@@ -471,33 +471,62 @@ def generate_header_from_survey(survey_file='survey-JP.xlsx', output_file='heade
 
 # Streamlit 主界面
 def main():
-    st.title("🌸 SP-批量模版生成工具（JP）")
+    st.title("SP-批量模版生成工具")
     
-    # 详细说明
-    st.markdown("""
-    ### 工具说明
-    这个工具专为日本市场（JP）设计，用于从上传的调查 Excel 文件自动生成广告活动的批量模板（header-JP.xlsx）。它支持以下核心功能：
+    # 国家选择
+    country = st.selectbox("选择国家/地区", options=['JP', 'A EU'], index=0)
     
-    - **自动提取活动信息**：从 '广告活动名称' 列提取独特活动，并映射 CPC、SKU、预算、广告组默认竞价、广告位和百分比等参数。
-    - **关键词处理**：智能匹配精准词/广泛词/ASIN 列，支持去重检查和类别提取（例如 suzhu/宿主、case/包/tape）。
-    - **否定关键词规则**：
-      - 全局否定：否定精准和否定词组。
-      - 交叉否定：宿主组否定 case 组精准词，反之亦然。
-      - 额外规则：广泛匹配组使用同类精准词作为否定；宿主广泛组添加额外否定词。
-    - **商品定向**：自动处理 ASIN 列的正向/否定定向。
-    - **输出结构**：生成包含广告活动、竞价调整、广告组、商品广告、关键词、否定关键词、商品定向等实体的完整模板。
-    
-    **使用步骤**：
-    1. 上传 .xlsx 调查文件（包含必要列如 '广告活动名称'、关键词列、否定列等）。
-    2. 点击“生成表头”按钮。
-    3. 查看预览和调试信息，下载生成的 header-JP.xlsx 文件。
-    
-    **注意事项**：
-    - 确保关键词列无重复，否则生成将中止。
-    - 日期默认为当前日期至年底（可手动调整模板）。
-    
-    如有问题，请检查文件结构或联系支持。
-    """)
+    # 基于国家显示对应的规则说明
+    if country == 'JP':
+        st.markdown("""
+        ### 工具说明
+        这个工具专为日本市场（JP）设计，用于从上传的调查 Excel 文件自动生成广告活动的批量模板（header-JP.xlsx）。它支持以下核心功能：
+        
+        - **自动提取活动信息**：从 '广告活动名称' 列提取独特活动，并映射 CPC、SKU、预算、广告组默认竞价、广告位和百分比等参数。
+        - **关键词处理**：智能匹配精准词/广泛词/ASIN 列，支持去重检查和类别提取（例如 suzhu/宿主、case/包/tape）。
+        - **否定关键词规则**：
+          - 全局否定：否定精准和否定词组。
+          - 交叉否定：宿主组否定 case 组精准词，反之亦然。
+          - 额外规则：广泛匹配组使用同类精准词作为否定；宿主广泛组添加额外否定词。
+        - **商品定向**：自动处理 ASIN 列的正向/否定定向。
+        - **输出结构**：生成包含广告活动、竞价调整、广告组、商品广告、关键词、否定关键词、商品定向等实体的完整模板。
+        
+        **使用步骤**：
+        1. 上传 .xlsx 调查文件（包含必要列如 '广告活动名称'、关键词列、否定列等）。
+        2. 点击“生成表头”按钮。
+        3. 查看预览和调试信息，下载生成的 header-JP.xlsx 文件。
+        
+        **注意事项**：
+        - 确保关键词列无重复，否则生成将中止。
+        - 日期默认为当前日期至年底（可手动调整模板）。
+        
+        如有问题，请检查文件结构或联系支持。
+        """)
+    elif country == 'A EU':
+        st.markdown("""
+        ### 工具说明
+        这个工具专为欧洲市场（A EU）设计，用于从上传的调查 Excel 文件自动生成广告活动的批量模板（header-A EU.xlsx）。它支持以下核心功能：
+        
+        - **自动提取活动信息**：从 '广告活动名称' 列提取独特活动，并映射 CPC、SKU、预算、广告组默认竞价、广告位和百分比等参数。
+        - **关键词处理**：智能匹配精准词/广泛词/ASIN 列，支持去重检查和类别提取（例如 suzhu/宿主、case/包/tape）。
+        - **否定关键词规则**：
+          - 全局否定：否定精准和否定词组。
+          - 交叉否定：宿主组否定 case 组精准词，反之亦然。
+          - 额外规则：广泛匹配组使用同类精准词作为否定；宿主广泛组添加额外否定词。
+        - **商品定向**：自动处理 ASIN 列的正向/否定定向。
+        - **输出结构**：生成包含广告活动、竞价调整、广告组、商品广告、关键词、否定关键词、商品定向等实体的完整模板。
+        
+        **使用步骤**：
+        1. 上传 .xlsx 调查文件（包含必要列如 '广告活动名称'、关键词列、否定列等）。
+        2. 点击“生成表头”按钮。
+        3. 查看预览和调试信息，下载生成的 header-A EU.xlsx 文件。
+        
+        **注意事项**：
+        - 确保关键词列无重复，否则生成将中止。
+        - 日期默认为当前日期至年底（可手动调整模板）。
+        
+        如有问题，请检查文件结构或联系支持。
+        """)
     
     # 文件上传（不指定文件名）
     uploaded_file = st.file_uploader("上传调查 Excel 文件", type=['xlsx'])
@@ -509,9 +538,11 @@ def main():
             f.write(uploaded_file.getbuffer())
         st.success(f"文件上传成功！已保存为：{saved_file_name}")
         
+        output_file = f'header-{country}.xlsx'
+        
         # 生成表头
         if st.button("生成表头"):
-            generate_header_from_survey(survey_file=saved_file_name, output_file='header-JP.xlsx')
+            generate_header_from_survey(survey_file=saved_file_name, output_file=output_file)
     else:
         st.info("请上传 .xlsx 文件以开始生成。")
 
