@@ -471,7 +471,7 @@ def generate_header_from_survey(survey_file='survey-JP.xlsx', output_file='heade
 
 # Streamlit 主界面
 def main():
-    st.title("SP-批量模版生成工具（JP）")
+    st.title("🌸 SP-批量模版生成工具（JP）")
     
     # 详细说明
     st.markdown("""
